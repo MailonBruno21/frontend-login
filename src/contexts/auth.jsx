@@ -27,10 +27,11 @@ export const AuthProvider = ({children}) => {
 
         const response = await createSession(email, password)
 
-        console.log('login', response.data)
+        console.log('password -> ' + password)
 
         const loggedUser = response.data.user
         const token = response.data.token
+        console.log('token -> ' + token)
 
         localStorage.setItem('user', JSON.stringify(loggedUser))
         localStorage.setItem('token', token)
@@ -39,7 +40,7 @@ export const AuthProvider = ({children}) => {
         api.defaults.headers.Authorization = `Baerer ${token}`
         
         setUser(loggedUser)
-        navigate("/")
+        navigate("/home")
         
     }
     
@@ -51,6 +52,7 @@ export const AuthProvider = ({children}) => {
         setUser(null)
         navigate('/login')
     }
+
      return (
         <AuthContext.Provider value={{authenticated: !!user, user, loading, login, logout}}>
             {children}
